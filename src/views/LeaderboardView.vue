@@ -11,94 +11,83 @@
       </select>
     </div>
 
-    <!-- Table -->
-    <vue-good-table
-      :columns="columns"
-      :rows="exerciseTimes"
-      :search-options="{ enabled: true }"
-      :pagination-options="{
-        enabled: true,
-        mode: 'records',
-        perPage: 5,
-      }"
-    />
+    <!-- Table Wrapper -->
+    <div class="table-wrapper">
+      <vue-good-table
+        :columns="columns"
+        :rows="exerciseTimes"
+        :search-options="{ enabled: true }"
+        :pagination-options="{
+          enabled: true,
+          mode: 'records',
+          perPage: 5,
+        }"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { db } from '@/services/firebase'
-import { collection, getDocs, orderBy, query, where, Timestamp } from 'firebase/firestore'
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { VueGoodTable } from 'vue-good-table-next'
-import ExerciseOptions from '@/assets/ExerciseOptions.vue' // adjust the path as needed
+import ExerciseOptions from '@/assets/ExerciseOptions.vue'
 
-// Firestore doc structure (adjust as needed)
 interface ExerciseTime {
   id: string
   exercise: string
   name: string
   time: number
-  createdAt?: Timestamp
+  date?: string
 }
 
 export default defineComponent({
   name: 'LeaderboardView',
   components: { VueGoodTable, ExerciseOptions },
   setup() {
-    // Official exercise list for the dropdown.
     const exercises = ref<string[]>([
       'SkiErg (1000m)',
-      // Sled Push variations:
       'Sled Push (50m, Men Open 75kg)',
       'Sled Push (50m, Men Pro 125kg)',
       'Sled Push (50m, Women Open 50kg)',
       'Sled Push (50m, Women Pro 100kg)',
-      // Sled Pull variations:
       'Sled Pull (50m, Men Open 50kg)',
       'Sled Pull (50m, Men Pro 75kg)',
       'Sled Pull (50m, Women Open 37.5kg)',
       'Sled Pull (50m, Women Pro 50kg)',
-      // Other exercises:
       'Burpee Broad Jumps (80m, no weight)',
       'Row (1000m)',
-      // Farmer’s Carry variations:
       'Farmer’s Carry (200m, Men Open 2x24kg)',
       'Farmer’s Carry (200m, Men Pro 2x32kg)',
       'Farmer’s Carry (200m, Women Open 2x16kg)',
       'Farmer’s Carry (200m, Women Pro 2x24kg)',
-      // Sandbag Lunges variations:
       'Sandbag Lunges (100m, Men Open 20kg)',
       'Sandbag Lunges (100m, Men Pro 30kg)',
       'Sandbag Lunges (100m, Women Open 10kg)',
       'Sandbag Lunges (100m, Women Pro 20kg)',
-      // Wall Balls variations:
       'Wall Balls (75 Open)',
       'Wall Balls (100 Pro)',
-      // Optionally keep your “training” variations:
       'Row 500m',
       'Skierg 500m',
     ])
 
-    const selectedExercise = ref<string>('') // default is blank
+    const selectedExercise = ref<string>('')
     const exerciseTimes = ref<ExerciseTime[]>([])
 
-    // columns for vue-good-table
     const columns = [
       { label: 'Name', field: 'name' },
       { label: 'Exercise', field: 'exercise' },
       { label: 'Time (s)', field: 'time' },
-      {
-        label: 'Date',
-        field: 'date', // use your plain string "date" field
-      },
+      { label: 'Date', field: 'date' },
     ]
 
     const fetchTimes = async () => {
+      if (!selectedExercise.value) {
+        exerciseTimes.value = []
+        return
+      }
       try {
-        if (!selectedExercise.value) {
-          exerciseTimes.value = []
-          return
-        }
         const q = query(
           collection(db, 'exerciseTimes'),
           where('exercise', '==', selectedExercise.value),
@@ -109,7 +98,6 @@ export default defineComponent({
           id: doc.id,
           ...(doc.data() as Omit<ExerciseTime, 'id'>),
         }))
-        console.log('Fetched times:', data)
         exerciseTimes.value = data
       } catch (err) {
         console.error('Error fetching exercise times:', err)
@@ -128,21 +116,26 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Container styling */
 .leaderboard-view {
-  max-width: 90%;
+  /* Make container full width, or set a larger max-width if desired */
+  width: 100%;
+  max-width: 800px; /* Increase as needed */
   margin: 2rem auto;
   background: #2b2b2b;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 8px;
   color: #f5f5f5;
 }
 
+/* Title styling */
 .leaderboard-view h1 {
   text-align: center;
   margin-bottom: 1rem;
   color: #3aae2a;
 }
 
+/* Filters */
 .filters {
   display: flex;
   align-items: center;
@@ -150,18 +143,26 @@ export default defineComponent({
   margin-bottom: 1rem;
 }
 
+/* Select box */
 #exerciseSelect {
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid #999;
   background: #f9f9f9;
   color: #333;
 }
 
+/* Table wrapper: allow horizontal scroll if needed */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
 /* Minor vue-good-table styling tweaks */
 .vgt-table {
   background: #1e1e1e;
   border: 1px solid #444;
+  font-size: 1rem; /* Larger base font */
 }
 .vgt-table-header {
   background: #333;
@@ -169,13 +170,13 @@ export default defineComponent({
   border-bottom: 1px solid #444;
 }
 .vgt-table-header th {
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
 }
 .vgt-row {
   border-bottom: 1px solid #444;
 }
 .vgt-row td {
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   color: #f5f5f5;
 }
 .vgt-row:hover {
@@ -192,5 +193,31 @@ export default defineComponent({
   border: 1px solid #ccc;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .leaderboard-view {
+    /* On tablets and smaller screens, remove max-width so it can be full width */
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .vgt-table {
+    font-size: 0.95rem; /* Slightly smaller if you need more space */
+  }
+  .vgt-table-header th,
+  .vgt-row td {
+    padding: 0.5rem;
+  }
 }
 </style>
