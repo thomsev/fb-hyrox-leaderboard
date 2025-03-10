@@ -1,0 +1,131 @@
+/* ---------------------------------------------------------
+   GLOBAL DARK THEME
+   We'll use the Vue brand color (#3aae2a) as our primary.
+   Adjust as you like!
+--------------------------------------------------------- */
+
+/* 1. CSS RESET / SIMPLE NORMALIZE */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. ROOT THEME VARIABLES */
+:root {
+  /* Brand and primary color (Vue's brand #3aae2a) */
+  --color-primary: #3aae2a;
+  /* Dark background */
+  --color-background: #1e1e1e;
+  /* Lighter text color for contrast */
+  --color-text: #f5f5f5;
+  /* Secondary color or accent, if needed */
+  --color-secondary: #4fc08d;
+  /* Cards or container background */
+  --color-surface: #2c2c2c;
+  /* For subtle borders/shadows, lighter shade of background */
+  --color-border: #3a3a3a;
+
+  /* Font sizes, spacing scale, etc. - optional */
+  --font-size-base: 16px;
+  --spacing-base: 8px;
+}
+
+/* 3. BODY STYLES */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-size-base);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+/* 4. HEADINGS, PARAGRAPHS, LINKS */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: var(--spacing-base);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p {
+  margin-bottom: var(--spacing-base);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* 5. BUTTONS */
+button {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: none;
+  padding: var(--spacing-base) var(--spacing-base);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+button:hover {
+  opacity: 0.9;
+}
+
+/* 6. GENERAL CLASSES & UTILS */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-base) var(--spacing-base);
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: 6px;
+  padding: var(--spacing-base) var(--spacing-base);
+  margin-bottom: var(--spacing-base);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling (for your leaderboard table) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+}
+th,
+td {
+  padding: var(--spacing-base);
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+/* 7. TRANSITIONS (optional fancy) */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
