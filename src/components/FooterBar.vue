@@ -15,15 +15,12 @@ export default defineComponent({
 
 <style scoped>
 .footer-bar {
-  background: #2b2b2b; /* match the header's dark background */
+  background: #2b2b2b;
   padding: 1rem;
   text-align: center;
-  color: #f5f5f5; /* light text */
-  margin-top: 2rem;
+  color: #f5f5f5;
   border-top: 1px solid #3a3a3a;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  /* No 'position: fixed' here */
 }
 
 .footer-bar p {

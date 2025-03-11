@@ -1,4 +1,3 @@
-<!-- src/App.vue -->
 <template>
   <div id="app">
     <HeaderNav />
@@ -53,9 +52,25 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
+/* Reset basic margins/padding and ensure the HTML and body fill the viewport */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* The root #app container is a column flex container that takes at least the full dynamic viewport height */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* The main content expands to take up available space */
 .main-container {
-  min-height: 80vh;
+  flex: 1;
   padding: 1rem;
 }
 </style>

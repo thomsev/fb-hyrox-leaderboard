@@ -18,15 +18,15 @@ const props = defineProps<Props>()
 const defaultExercises = [
   'SkiErg (1000m)',
   // Sled Push variations:
-  'Sled Push (50m, Men Open 75kg)',
-  'Sled Push (50m, Men Pro 125kg)',
-  'Sled Push (50m, Women Open 50kg)',
+  'Sled Push (50m, Men Open 102kg)',
+  'Sled Push (50m, Men Pro 202kg)',
+  'Sled Push (50m, Women Open 152kg)',
   'Sled Push (50m, Women Pro 100kg)',
   // Sled Pull variations:
-  'Sled Pull (50m, Men Open 50kg)',
-  'Sled Pull (50m, Men Pro 75kg)',
-  'Sled Pull (50m, Women Open 37.5kg)',
-  'Sled Pull (50m, Women Pro 50kg)',
+  'Sled Pull (50m, Men Open 103kg)',
+  'Sled Pull (50m, Men Pro 153kg)',
+  'Sled Pull (50m, Women Open 78kg)',
+  'Sled Pull (50m, Women Pro 102kg)',
   // Other exercises:
   'Burpee Broad Jumps (80m, no weight)',
   'Row (1000m)',
